@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>안녕히가세요</title>
+</head>
+<body>
+	<table border="1">
+		<tbody>
+			<tr>
+				<th>이름</th>
+				<th>나이</th>
+			</tr>
+			<tr>
+				<td th:text="${member.name}">이름</td>
+				<td th:text="${member.age}">나이</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<h1 th:text="|${member.age}세 ${member.name}님 안녕히가세요~|" >인삿말</h1>
+</body>
+</html>
