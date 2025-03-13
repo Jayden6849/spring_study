@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+	https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans 
+		https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		https://www.springframework.org/schema/context/spring-context.xsd">
+		
+	<!-- @Controller가 명시된 클래스를 요청받을 수 있는 객체로 설정하는 위치 -->
+	<annotation-driven/>
+	
+	<!-- css, js, jpg 같은 파일(정적인 파일) 도 경로가 존재하기 때문에 HandlerMapping의 탐색 대상이 됨 : 404 에러가 발생함 -->
+	<!-- 스프링은 url 모양으로 들어오면 다 서블릿이라고 판단하기 때문에 resources라는 것을 따로 알려줘야함 -->
+	<!-- resources 하위 경로 파일들은 HandlerMapping이 접근하지 못하도록 적어주는 위치 -->
+	<resources location="/resources/" mapping="/resources/**"/>
+	
+	<!-- 요청이 들어오면 DispatcherServlet -> HandlerMapping -> HandlerAdapter -> ViewResolver 순으로 동작 -->
+	<!-- return "home" 으로 반환되면 /WEB-INF/views/home.jsp 파일을 찾아서 동작 -->
+	<!-- ViewResolver 가 읽는 방식을 지정해주는 위치 -->
+	<beans:bean 
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+
+	<!-- Spring이 Bean으로 등록할 클래스들을 찾기 시작하는 최상위 경로 : 처음 만들때 Group Id -->
+	<context:component-scan base-package="com.gn" />
+</beans:beans>
