@@ -9,6 +9,17 @@ layout:decorate="~{/include/layout}">
 			<div class="word">
 				<h3>게시글 목록</h3>
 			</div><br>
+			<form action="/board" name="search_board_form" method="get" >
+				<div class="search">
+					<select name="search_type">
+						<option value="1" th:selected="${searchDto.search_type == 1}">제목</option>
+						<option value="2" th:selected="${searchDto.search_type == 2}">내용</option>
+						<option value="3" th:selected="${searchDto.search_type == 3}">제목+내용</option>
+					</select>
+					<input type="text" name="search_text" placeholder="검색어를 입력하세요." th:value="${searchDto.search_text}">
+					<input type="submit" value="검색">
+				</div>
+			</form>
 			<div class="board_list">
 				<table>
 					<colgroup>

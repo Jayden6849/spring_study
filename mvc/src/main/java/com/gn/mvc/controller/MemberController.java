@@ -21,12 +21,15 @@ public class MemberController {
 	
 	@GetMapping("/member/create")
 	public String createMemberView() {
+		
 		return "member/create";
+		
 	}
 	
 	@PostMapping("/member")
 	@ResponseBody
 	public Map<String, String> createMemberApi(MemberDto dto) {
+		
 		Map<String, String> resultMap = new HashMap<>();
 		
 		resultMap.put("res_code", "500");
@@ -40,6 +43,7 @@ public class MemberController {
 		}
 		
 		return resultMap;
+		
 	}
 	
 }
