@@ -3,6 +3,8 @@ package com.gn.mvc.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
+	
+	private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	// 1. 필드 주입 방법 - 순환참조 문제에 취약함 - new 라는 단어만 안 썼지 사실 쓴 것과 다르지 않음
 //	@Autowired
@@ -61,6 +65,11 @@ public class BoardController {
 		// 사용자로부터 입력받은 dto를 지니고 있는 상태임
 		// Service 가 가지고 있는 createBoard() 를 호출해야함
 		BoardDto resultDto = service.createBoard(dto);
+		
+		logger.debug("1 : "+resultDto.toString());
+		logger.info("2 : "+resultDto.toString());
+		logger.warn("3 : "+resultDto.toString());
+		logger.error("4 : "+resultDto.toString());
 		
 		if(resultDto != null) {
 			resultMap.put("res_code", "200");

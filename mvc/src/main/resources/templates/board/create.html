@@ -28,7 +28,7 @@ layout:decorate="~{/include/layout}">
 			const form = document.create_board_form;
 			form.addEventListener('submit', (event) => { 		// 폼태그가 서브밋되었을 때
 				event.preventDefault();							// 일단 서브밋되는거 막아놓은 후
-					
+				
 				let vali_check = false;							// 유효성을 통과했는가?
 				let vali_text = "";								// 통과하지 못했을 때 띄워줄 문구
 				
@@ -52,13 +52,15 @@ layout:decorate="~{/include/layout}">
 					.then(response => response.json())
 					.then(data => {
 						alert(data.res_msg);
-						location.href = "/";
+						if(data.res_code == '200') {
+							location.href = "/";
+						}
 					})
 					.catch(error => {
 						console.log(error);
 					})
 				}
-			}); 
+			});
 		</script>
 	</th:block>
 </body>

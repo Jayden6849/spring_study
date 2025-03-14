@@ -1,5 +1,10 @@
 package com.gn.mvc.entity;
 
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,5 +33,13 @@ public class Member {
 	
 	@Column(name="member_name")
 	private String memberName;
+	
+	@CreationTimestamp
+	@Column(updatable=false, name="reg_date")
+	private LocalDateTime regDate;
+	
+	@UpdateTimestamp
+	@Column(insertable=false, name="mod_date")
+	private LocalDateTime modDate;	
 	
 }

@@ -34,14 +34,19 @@ layout:decorate="~{/include/layout}">
 				
 				if(!form.member_id.value) {
 					vali_msg += "아이디를 입력하세요";
+					form.member_id.focus();
 				} else if(!form.member_pw.value) {
 					vali_msg += "비밀번호를 입력하세요";
+					form.member_pw.focus();
 				} else if(!form.member_pw_check.value) {
 					vali_msg += "비밀번호 확인을 입력하세요";
+					form.member_pw_check.focus();
 				} else if(form.member_pw.value != form.member_pw_check.value) {
 					vali_msg += "비밀번호와 비밀번호 확인이 일치하지 않습니다.";
+					form.member_pw.focus();
 				} else if(!form.member_name.value) {
 					vali_msg += "닉네임을 입력하세요";
+					form.member_name.focus();
 				} else {
 					vali_chk = true;
 				}
@@ -59,7 +64,9 @@ layout:decorate="~{/include/layout}">
 					.then(response => response.json())
 					.then(data => {
 						alert(data.result_msg);
-						location.href = "/";
+						if(data.res_code == '200') {
+							location.href = "/";
+						}
 					})
 					.catch(error => {
 						console.log(error);
