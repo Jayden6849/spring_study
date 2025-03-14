@@ -28,18 +28,15 @@ public class MemberDto {
 	private LocalDateTime mod_date;
 	
 	public Member toEntity() {
-		
 		return Member.builder()
 				.memberNo(this.member_no)
 				.memberId(this.member_id)
 				.memberPw(this.member_pw)
 				.memberName(this.member_name)
 				.build();
-		
 	}
 	
 	public MemberDto toDto(Member member) {
-		
 		return MemberDto.builder()
 				.member_no(member.getMemberNo())
 				.member_id(member.getMemberId())
@@ -47,7 +44,6 @@ public class MemberDto {
 				.member_name(member.getMemberName())
 				.reg_date(member.getRegDate())
 				.mod_date(member.getModDate())
-				.build();
-		
+				.build();	
 	}
 }

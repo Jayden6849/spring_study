@@ -29,26 +29,22 @@ public class BoardDto {
 	
 	// 1. BoardDto -> Board(Entity) : DB 랑 소통할 떄는 Entity 이용함
 	public Board toEntity() {
-		
 		return Board.builder()
 				.boardNo(this.board_no)
 				.boardTitle(this.board_title)
 				.boardContent(this.board_content)
-				.build();
-		
+				.build();	
 	}
 	
 	// 2. Board(Entity) -> BoardDto : Java 랑 소통할 때는 DTO 이용함
 	public BoardDto toDto(Board board) {
-		
 		return BoardDto.builder()
 				.board_no(board.getBoardNo())
 				.board_title(board.getBoardTitle())
 				.board_content(board.getBoardContent())
 				.reg_date(board.getRegDate())
 				.mod_date(board.getModDate())
-				.build();
-						
+				.build();		
 	}
 	
 }

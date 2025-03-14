@@ -15,13 +15,11 @@ public class MemberService {
 	private final MemberRepository repository;
 	
 	public MemberDto createMember(MemberDto dto) {
-		
 		Member param = dto.toEntity();
 		
 		Member result = repository.save(param);
 		
-		return new MemberDto().toDto(result);
-		
+		return new MemberDto().toDto(result);	
 	}
 	
 }
