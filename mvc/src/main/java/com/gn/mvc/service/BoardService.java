@@ -81,4 +81,8 @@ public class BoardService {
 		
 	}
 	
+	public Board selectBoardOne(Long id) {
+		return repository.findById(id).orElse(null); 	// null 인경우는 그냥 null로 반환해라. 닫지 않고 Optional<T>로 열어놓을 수도 있지만 복잡함.
+	}
+	
 }

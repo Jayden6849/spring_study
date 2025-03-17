@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" 
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
 layout:decorate="~{/include/layout}">
-	<th:block layout:fragment="content">	
+	<th:block layout:fragment="content">
 		<link th:href="@{/css/board/list.css}" rel="stylesheet">
 		<link th:href="@{/css/include/paging.css}" rel="stylesheet">
+		<script th:src="@{js/jquery-3.7.1.js}"></script>
 		<section>
 		<div id="section_wrap">
 			<div class="word">
@@ -48,7 +49,8 @@ layout:decorate="~{/include/layout}">
 							<td colspan="4">등록된 게시글이 없습니다.</td>
 						</tr>
 						<tr th:if="${!#lists.isEmpty(boardList)}"
-							th:each="board, boardStatus : ${boardList}">
+							th:each="board, boardStatus : ${boardList}"
+							th:attr="data-board-no=${board.boardNo}">
 							<td th:text="${(pageDto.nowPage-1)*(pageDto.numPerPage)+boardStatus.count}">번호</td>
 							<td th:text="${board.boardTitle}">제목</td>
 							<td th:text="${board.member.memberName}">작성자</td>
@@ -78,6 +80,13 @@ layout:decorate="~{/include/layout}">
 			document.getElementById("order_type").addEventListener("change", function(event){
 				const orderType = event.target.value;
 				location.href="/board?order_type="+orderType;
+			});
+			
+			$(function(){
+				$('.board_list tbody tr').on('click',function(){
+					const boardNo = $(this).data('board-no')
+					location.href="/board/"+boardNo;
+				});
 			});
 		</script>
 	</th:block>
