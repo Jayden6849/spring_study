@@ -2,6 +2,7 @@ package com.gn.mvc.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,12 @@ public class BoardService {
 		 * return resultList;
 		 */
 		
+		Sort sort = Sort.by("regDate").descending();
+		
+		if(searchDto.getOrder_type() == 2) {
+			sort = Sort.by("regDate").ascending();
+		}
+		
 		Specification<Board> spec = (root, query, criteriaBuilder) -> null;
 		
 		if(searchDto.getSearch_type() == 1) {
@@ -60,7 +67,7 @@ public class BoardService {
 		} else {
 			// spec == null 이기 때문에 findAll()을 쓴 것과 같음
 		}
-		List<Board> resultList = repository.findAll(spec);
+		List<Board> resultList = repository.findAll(spec, sort);
 		
 		return resultList;
 		

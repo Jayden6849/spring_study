@@ -2,6 +2,7 @@ package com.gn.mvc.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -28,6 +29,6 @@ public interface BoardRepository extends JpaRepository<Board, Long>, JpaSpecific
 	List<Board> findByTitleOrContentLike(String title, String content);
 	
 	// Specification 방식 - 오버로딩한 메소드를 오버라이딩
-	List<Board> findAll(Specification<Board> spec);
+	List<Board> findAll(Specification<Board> spec, Sort sort);
 	
 }
