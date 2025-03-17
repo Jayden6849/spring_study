@@ -82,7 +82,24 @@ public class BoardService {
 	}
 	
 	public Board selectBoardOne(Long id) {
-		return repository.findById(id).orElse(null); 	// null 인경우는 그냥 null로 반환해라. 닫지 않고 Optional<T>로 열어놓을 수도 있지만 복잡함.
+		return repository.findById(id).orElse(null); 	// null 인 경우는 그냥 null로 반환해라. 닫지 않고 Optional<T>로 열어놓을 수도 있지만 복잡함.
 	}
 	
+	public Board updateBoard(BoardDto boardDto) {
+		Board result = null;
+		
+		/* 
+		 * JPA에서 권고하는 방식 - 한 번 더 조회해서 수정하게 되므로 무결성이 높아짐
+		 * 1. @Id를 쓴 필드를 기준을 타겟 조회
+		 * 2. 타겟이 존재하는 경우에만 업데이트를 행함
+		 */
+		
+		Board target = repository.findById(boardDto.getBoard_no()).orElse(null);
+		
+		if(target != null) {
+			result = repository.save(boardDto.toEntity());
+		}
+		
+		return result;
+	}
 }

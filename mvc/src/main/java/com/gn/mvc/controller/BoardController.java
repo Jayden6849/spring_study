@@ -117,7 +117,36 @@ public class BoardController {
 	}
 	
 	@GetMapping("/board/{id}/update")
-	public String updateBoardView(@PathVariable("id") Long id) {
+	public String updateBoardView(@PathVariable("id") Long id, Model model) {
+		Board board = service.selectBoardOne(id);
+		model.addAttribute("board", board);
 		
+		return "board/update";
 	}
+	
+	@PostMapping("/board/{id}/update")
+	@ResponseBody
+	public Map<String, String> updateBoardApi(BoardDto boardDto) {
+		// 1. boardDto 출력해보기
+		logger.debug("boardDto 출력확인 : "+boardDto.toString());
+		
+		// 2. BoardService -> BoardRepository 게시글 수정
+		Board result = service.updateBoard(boardDto);
+		
+		logger.debug("entity 출력확인 : "+result.toString());
+		
+		// 3. 수정 결과 Entity르 ㄹ받아와서 null 이 아니면 성공, 그 외에는 실패
+		Map<String, String> resultMap = new HashMap<>();
+		
+		resultMap.put("res_code", "500");
+		resultMap.put("res_msg", "게시글 수정 중 오류가 발생하였습니다.");
+		
+		if(result != null) {
+			resultMap.put("res_code", "200");
+			resultMap.put("res_msg", "게시글 수정이 완료되었습니다.");
+		}
+		
+		return resultMap;
+	}
+	
 }
