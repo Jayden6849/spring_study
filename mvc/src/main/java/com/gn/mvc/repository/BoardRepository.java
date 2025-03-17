@@ -2,7 +2,8 @@ package com.gn.mvc.repository;
 
 import java.util.List;
 
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -28,7 +29,7 @@ public interface BoardRepository extends JpaRepository<Board, Long>, JpaSpecific
 	@Query(value="SELECT b FROM Board b WHERE b.boardTitle LIKE CONCAT('%', ?1,'%') OR b.boardContent LIKE CONCAT('%', ?2,'%')")
 	List<Board> findByTitleOrContentLike(String title, String content);
 	
-	// Specification 방식 - 오버로딩한 메소드를 오버라이딩
-	List<Board> findAll(Specification<Board> spec, Sort sort);
+	// Specification 방식 - 오버로딩한 메소드를 오버라이딩 + 정렬기준 입력
+	Page<Board> findAll(Specification<Board> spec, Pageable pageable);
 	
 }

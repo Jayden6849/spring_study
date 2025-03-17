@@ -1,12 +1,14 @@
 package com.gn.mvc.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.gn.mvc.dto.BoardDto;
+import com.gn.mvc.dto.PageDto;
 import com.gn.mvc.dto.SearchDto;
 import com.gn.mvc.entity.Board;
 import com.gn.mvc.repository.BoardRepository;
@@ -33,7 +35,7 @@ public class BoardService {
 		
 	}
 	
-	public List<Board> selectBoardAll(SearchDto searchDto) {
+	public Page<Board> selectBoardAll(SearchDto searchDto, PageDto pageDto) {
 		
 		/*
 		 * List<Board> resultList = new ArrayList<>();
@@ -50,10 +52,16 @@ public class BoardService {
 		 * return resultList;
 		 */
 		
-		Sort sort = Sort.by("regDate").descending();
+		/*
+		 * Sort sort = Sort.by("regDate").descending();
+		 * 
+		 * if(searchDto.getOrder_type() == 2) { sort = Sort.by("regDate").ascending(); }
+		 */
+		
+		Pageable pageable = PageRequest.of(pageDto.getNowPage()-1, pageDto.getNumPerPage(), Sort.by("regDate").descending());
 		
 		if(searchDto.getOrder_type() == 2) {
-			sort = Sort.by("regDate").ascending();
+			pageable = PageRequest.of(pageDto.getNowPage()-1, pageDto.getNumPerPage(), Sort.by("regDate").ascending());
 		}
 		
 		Specification<Board> spec = (root, query, criteriaBuilder) -> null;
@@ -67,7 +75,7 @@ public class BoardService {
 		} else {
 			// spec == null 이기 때문에 findAll()을 쓴 것과 같음
 		}
-		List<Board> resultList = repository.findAll(spec, sort);
+		Page<Board> resultList = repository.findAll(spec, pageable);
 		
 		return resultList;
 		
