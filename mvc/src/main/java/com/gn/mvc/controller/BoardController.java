@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -144,6 +145,27 @@ public class BoardController {
 		if(result != null) {
 			resultMap.put("res_code", "200");
 			resultMap.put("res_msg", "게시글 수정이 완료되었습니다.");
+		}
+		
+		return resultMap;
+	}
+	
+	@DeleteMapping("/board/{id}")
+	@ResponseBody
+	public Map<String, String> deleteBoardApi(@PathVariable("id") Long boardNo) {
+		
+		logger.debug("게시글 삭제 - boardDto 출력확인 : "+boardNo.toString());
+		
+		Map<String, String> resultMap = new HashMap<>();
+		
+		resultMap.put("res_code", "500");
+		resultMap.put("res_msg", "게시글 삭제 중 오류가 발생하였습니다.");
+		
+		int result = service.deleteBoard(boardNo);
+		
+		if(result > 0) {
+			resultMap.put("res_code", "200");
+			resultMap.put("res_msg", "게시글이 삭제되었습니다.");
 		}
 		
 		return resultMap;

@@ -102,4 +102,22 @@ public class BoardService {
 		
 		return result;
 	}
+	
+	public int deleteBoard(Long boardNo) {
+		int result = 0;
+
+		try {
+			Board target = repository.findById(boardNo).orElse(null);
+			
+			if(target != null) {
+				repository.deleteById(boardNo);
+			}
+			
+			result = 1;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }

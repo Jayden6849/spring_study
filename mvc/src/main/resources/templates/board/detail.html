@@ -44,9 +44,35 @@ layout:decorate="~{/include/layout}">
 				</div>
 				<div class="buttons">
 					<a th:href="@{/board/{id}/update(id=${board.boardNo})}">수정</a>
-					<a href="">삭제</a>
+					<a th:onclick="|javascript:boardDelete('${board.boardNo}')|">삭제</a>
 				</div>
 			</div>
 		</section>
+		<script>
+			const boardDelete = function(boardNo){
+				// console.log(boardNo);
+				
+				// confirm 함수 사용 -> 게시글 삭제 여부 확인
+				// 동의 -> fetch 사용해서 삭제
+				// (1) url : /board/1
+				// (2) method : 'delete'
+				// (3) 응답 데이터 출력 -> 수정과 동일
+				// 컨트롤러 요청 받는 메소드
+				let deleteCheck = confirm('정말로 삭제하시겠습니까?');
+				
+				if(deleteCheck) {
+					fetch('/board/'+boardNo,{
+						method : 'delete'
+					})
+					.then(response => response.json())
+					.then(data => {
+						alert(data.res_msg);
+						if(data.res_code == 200) {
+							location.href="/board";
+						}
+					})
+				}
+			};
+		</script>
     </th:block>
 </html>
