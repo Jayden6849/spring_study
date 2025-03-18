@@ -1,6 +1,8 @@
 package com.gn.mvc.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -19,6 +21,7 @@ import com.gn.mvc.dto.AttachDto;
 import com.gn.mvc.dto.BoardDto;
 import com.gn.mvc.dto.PageDto;
 import com.gn.mvc.dto.SearchDto;
+import com.gn.mvc.entity.Attach;
 import com.gn.mvc.entity.Board;
 import com.gn.mvc.service.AttachService;
 import com.gn.mvc.service.BoardService;
@@ -89,9 +92,25 @@ public class BoardController {
 //			resultMap.put("res_msg", "게시글 등록이 완료되었습니다.");
 //		}
 		
+		List<AttachDto> attachDtoList = new ArrayList<>();
+		
 		for(MultipartFile mf : dto.getFiles()) {
 			logger.debug(mf.getOriginalFilename());
-			attachService.uploadFile(mf);
+			
+			AttachDto attachDto = attachService.uploadFile(mf);
+			
+			if(attachDto != null) {									// 서버에 파일이 정상적으로 업로드된 시점
+				attachDtoList.add(attachDto);
+			}	
+		}
+		
+		if(dto.getFiles().size() == attachDtoList.size()) { 		// 서버에도 업로드 되었고, ArrayList에도 정상적으로 add된 시점
+			int result = service.createBoard(dto, attachDtoList);
+			
+			if(result > 0) {
+				resultMap.put("res_code", "200");
+				resultMap.put("res_msg", "게시글 등록이 완료되었습니다.");
+			}
 		}
 		
 		return resultMap;
@@ -123,7 +142,10 @@ public class BoardController {
 		Board result = service.selectBoardOne(id);
 		logger.info("id 기준 상세 조회 : "+result);
 		
+		List<Attach> attachList = attachService.selectAttachList(id);
+		
 		model.addAttribute("board", result);
+		model.addAttribute("attachList", attachList);
 		
 		return "board/detail";
 	}
