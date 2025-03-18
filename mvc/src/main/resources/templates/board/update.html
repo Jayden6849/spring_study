@@ -16,7 +16,7 @@ layout:decorate="~{/include/layout}">
 						<input type="text" name="board_content" th:value="${board.boardContent}"><br>
 						<input type="hidden" name="board_writer" th:value="${board.member.memberNo}"><br>
 						<div th:if="${!#lists.isEmpty(attachList)}"
-								th:each="attach : ${attachList}">
+							th:each="attach : ${attachList}">
 								<input type="hidden" name="delete_files" th:value="${attach.attachNo}" disabled>
 								<span th:text="${attach.oriName}">파일명</span>
 								<button type="button" class="btn_close" onclick="changeStatus(this)">삭제</button><br>

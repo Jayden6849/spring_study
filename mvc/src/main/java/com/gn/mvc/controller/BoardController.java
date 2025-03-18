@@ -173,7 +173,7 @@ public class BoardController {
 		
 //		logger.debug("entity 출력확인 : "+result.toString());
 		
-		logger.warn("삭제 파일 정보 : " + boardDto.getDelete_files());
+		logger.debug("삭제 파일 정보 : " + boardDto.getDelete_files());
 		
 		// 3. 수정 결과 Entity르 ㄹ받아와서 null 이 아니면 성공, 그 외에는 실패
 		Map<String, String> resultMap = new HashMap<>();
