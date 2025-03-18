@@ -105,4 +105,8 @@ public class AttachService {
 		
 	}
 	
+	public Attach selectAttachOne(Long attachNo) {
+		return attachRepository.findById(attachNo).orElse(null);
+	}
+	
 }

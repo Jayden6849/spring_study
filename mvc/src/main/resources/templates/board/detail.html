@@ -4,7 +4,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="~{/include/layout}">
 	<th:block layout:fragment="content">	
 		<link th:href="@{/css/board/detail.css}" rel="stylesheet">
-		<section>	
+		<section>
 			<div id="section_wrap">
 				<div class="word">
 					<h3>게시글 상세 정보</h3>
@@ -12,9 +12,13 @@ layout:decorate="~{/include/layout}">
 				<div class="board_detail">
 					<ul>
 						<li>
-							<img src="">
+							<img th:if="${!#lists.isEmpty(attachList)}"
+								th:src="|/uploads/board/${attachList[0].newName}|">
+							<img th:if="${#lists.isEmpty(attachList)}"
+								th:src="@{/img/lumodiem_logo.png}">
 							<br>
-							<span></span>
+							<span th:if="${!#lists.isEmpty(attachList)}"
+								th:text="${attachList[0].oriName}">대표 이미지 명칭</span>
 						</li>
 						<li>
 							<table>
@@ -41,7 +45,11 @@ layout:decorate="~{/include/layout}">
 								<tr>
 									<td>파일 목록</td>
 									<td>
-										
+										<div th:if="${!#lists.isEmpty(attachList)}"
+											th:each="attach : ${attachList}">
+											<a th:onclick="|location.href='@{/download/{id}(id=${attach.attachNo})}'|"
+												th:text="${attach.oriName}">파일명</a>
+										</div>
 									</td>
 								</tr>
 							</table>

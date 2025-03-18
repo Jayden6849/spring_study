@@ -20,5 +20,5 @@ public class MvcApplication implements WebMvcConfigurer {
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/uploads/**").addResourceLocations("file:///"+fileDir);
 	}
-
+	
 }

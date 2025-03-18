@@ -32,6 +32,7 @@ public class BoardDto {
 	private LocalDateTime reg_date;
 	private LocalDateTime mod_date;
 	
+	private List<Long> delete_files;
 	private List<MultipartFile> files;
 	
 	// 1. BoardDto -> Board(Entity) : DB 랑 소통할 떄는 Entity 이용함

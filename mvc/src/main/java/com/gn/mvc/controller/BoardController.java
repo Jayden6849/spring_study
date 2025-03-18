@@ -152,8 +152,12 @@ public class BoardController {
 	
 	@GetMapping("/board/{id}/update")
 	public String updateBoardView(@PathVariable("id") Long id, Model model) {
-		Board board = service.selectBoardOne(id);
+		Board board = service.selectBoardOne(id); 						// 해당 게시글의 데이터를 넘겨주기 위함
+		
+		List<Attach> attachList = attachService.selectAttachList(id);	// 파일에 대한 메타데이터도 같이 넘겨주기 위함
+		
 		model.addAttribute("board", board);
+		model.addAttribute("attachList", attachList);
 		
 		return "board/update";
 	}
@@ -162,12 +166,14 @@ public class BoardController {
 	@ResponseBody
 	public Map<String, String> updateBoardApi(BoardDto boardDto) {
 		// 1. boardDto 출력해보기
-		logger.debug("boardDto 출력확인 : "+boardDto.toString());
+//		logger.debug("boardDto 출력확인 : "+boardDto.toString());
 		
 		// 2. BoardService -> BoardRepository 게시글 수정
-		Board result = service.updateBoard(boardDto);
+//		Board result = service.updateBoard(boardDto);
 		
-		logger.debug("entity 출력확인 : "+result.toString());
+//		logger.debug("entity 출력확인 : "+result.toString());
+		
+		logger.warn("삭제 파일 정보 : " + boardDto.getDelete_files());
 		
 		// 3. 수정 결과 Entity르 ㄹ받아와서 null 이 아니면 성공, 그 외에는 실패
 		Map<String, String> resultMap = new HashMap<>();
@@ -175,10 +181,10 @@ public class BoardController {
 		resultMap.put("res_code", "500");
 		resultMap.put("res_msg", "게시글 수정 중 오류가 발생하였습니다.");
 		
-		if(result != null) {
-			resultMap.put("res_code", "200");
-			resultMap.put("res_msg", "게시글 수정이 완료되었습니다.");
-		}
+		/*
+		 * if(result != null) { resultMap.put("res_code", "200");
+		 * resultMap.put("res_msg", "게시글 수정이 완료되었습니다."); }
+		 */
 		
 		return resultMap;
 	}
