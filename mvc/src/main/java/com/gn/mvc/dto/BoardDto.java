@@ -1,6 +1,9 @@
 package com.gn.mvc.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gn.mvc.entity.Board;
 import com.gn.mvc.entity.Member;
@@ -28,6 +31,8 @@ public class BoardDto {
 	private Long board_writer;
 	private LocalDateTime reg_date;
 	private LocalDateTime mod_date;
+	
+	private List<MultipartFile> files;
 	
 	// 1. BoardDto -> Board(Entity) : DB 랑 소통할 떄는 Entity 이용함
 	public Board toEntity() {

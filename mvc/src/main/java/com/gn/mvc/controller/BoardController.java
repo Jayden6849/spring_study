@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.gn.mvc.dto.AttachDto;
 import com.gn.mvc.dto.BoardDto;
 import com.gn.mvc.dto.PageDto;
 import com.gn.mvc.dto.SearchDto;
 import com.gn.mvc.entity.Board;
+import com.gn.mvc.service.AttachService;
 import com.gn.mvc.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +45,7 @@ public class BoardController {
 	
 	// 3. 생성자 주입 방법 - 권장
 	private final BoardService service;
+	private final AttachService attachService;
 	
 //	@Autowired
 //	public BoardController(BoardService service) {
@@ -71,16 +75,23 @@ public class BoardController {
 		
 		// 사용자로부터 입력받은 dto를 지니고 있는 상태임
 		// Service 가 가지고 있는 createBoard() 를 호출해야함
-		BoardDto resultDto = service.createBoard(dto);
+//		BoardDto resultDto = service.createBoard(dto);
 		
-		logger.debug("1 : "+resultDto.toString());
-		logger.info("2 : "+resultDto.toString());
-		logger.warn("3 : "+resultDto.toString());
-		logger.error("4 : "+resultDto.toString());
+		/*
+		 * logger.debug("1 : "+resultDto.toString());
+		 * logger.info("2 : "+resultDto.toString());
+		 * logger.warn("3 : "+resultDto.toString());
+		 * logger.error("4 : "+resultDto.toString());
+		 */
 		
-		if(resultDto != null) {
-			resultMap.put("res_code", "200");
-			resultMap.put("res_msg", "게시글 등록이 완료되었습니다.");
+//		if(resultDto != null) {
+//			resultMap.put("res_code", "200");
+//			resultMap.put("res_msg", "게시글 등록이 완료되었습니다.");
+//		}
+		
+		for(MultipartFile mf : dto.getFiles()) {
+			logger.debug(mf.getOriginalFilename());
+			attachService.uploadFile(mf);
 		}
 		
 		return resultMap;
