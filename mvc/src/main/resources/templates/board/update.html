@@ -20,11 +20,9 @@
 						th:value="${board.member.memberNo}"><br>
 					<div th:if="${!#lists.isEmpty(attachList)}"
 						th:each="attach : ${attachList}">
-						<input type="hidden" name="delete_files"
-							th:value="${attach.attachNo}" disabled> <span
-							th:text="${attach.oriName}">파일명</span>
-						<button type="button" class="btn_close"
-							onclick="changeStatus(this)">삭제</button>
+						<input type="hidden" name="delete_files" th:value="${attach.attachNo}" disabled>
+						<span th:text="${attach.oriName}">파일명</span>
+						<button type="button" class="btn_close" onclick="changeStatus(this)">삭제</button>
 						<br>
 					</div>
 					<input type="file" name="files" multiple><br>
@@ -86,6 +84,10 @@
 					
 					fetch('/board/'+form.board_no.value+'/update', {
 						method : 'post',
+					 	headers : {
+							'header': document.querySelector('meta[name="_csrf_header"]').content,
+							'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').content
+						},
 						body : payload
 					})
 					.then(response => response.json())

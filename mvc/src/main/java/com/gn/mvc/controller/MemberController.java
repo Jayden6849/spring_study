@@ -19,23 +19,24 @@ public class MemberController {
 	
 	private final MemberService service;
 	
-	@GetMapping("/member/create")
-	public String createMemberView() {
-		
-		return "member/create";
-		
+	@GetMapping("/login")
+	public String loginView() {
+		return "member/login";
 	}
 	
-	@PostMapping("/member")
+	@PostMapping("/signup")
 	@ResponseBody
-	public Map<String, String> createMemberApi(MemberDto dto) {
-		
+	public Map<String, String> createMemberApi(MemberDto memberDto) {
 		Map<String, String> resultMap = new HashMap<>();
 		
 		resultMap.put("res_code", "500");
 		resultMap.put("result_msg", "회원가입 중 오류가 발생하였습니다.");
 		
-		MemberDto resultDto = service.createMember(dto);
+		System.out.println("크리에이트 전 : "+memberDto);
+		
+		MemberDto resultDto = service.createMember(memberDto);
+		
+		System.out.println("크리에이트 후 : "+memberDto);
 		
 		if(resultDto != null) {
 			resultMap.put("res_code", "200");
@@ -43,7 +44,11 @@ public class MemberController {
 		}
 		
 		return resultMap;
-		
+	}
+	
+	@GetMapping("/signup")
+	public String createMemberView() {
+		return "member/create";
 	}
 	
 }

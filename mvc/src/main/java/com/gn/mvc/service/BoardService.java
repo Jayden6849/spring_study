@@ -18,6 +18,7 @@ import com.gn.mvc.entity.Attach;
 import com.gn.mvc.entity.Board;
 import com.gn.mvc.repository.AttachRepository;
 import com.gn.mvc.repository.BoardRepository;
+import com.gn.mvc.specification.AttachSpecification;
 import com.gn.mvc.specification.BoardSpecification;
 
 import lombok.RequiredArgsConstructor;
@@ -202,6 +203,7 @@ public class BoardService {
 		return result;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	public int deleteBoard(Long boardNo) {
 		int result = 0;
 
@@ -210,11 +212,21 @@ public class BoardService {
 			Board target = repository.findById(boardNo).orElse(null);
 
 			if (target != null) {
-				repository.deleteById(boardNo);
+				// 삭제하고자 하는 대상이 있는 경우
+				
+				Specification<Attach> spec = Specification.where(AttachSpecification.boardEquals(target));
+				
+				List<Attach> attachList = attachRepository.findAll(spec);
+				
+				for(Attach attach : attachList) {
+					attachService.deleteFileData(attach.getAttachNo());	// 1. 서버에서 먼저 파일을 내려주고
+					attachRepository.delete(attach);					// 2. DB에서 파일 메타 데이터를 내려줌
+				}
+				
+				repository.deleteById(boardNo);							// 3. 마지막으로 게시글 데이터를 DB에서 내려줌
 			}
 
 			result = 1;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -70,6 +70,7 @@ public class BoardController {
 //			두 번 째 방법
 //			@RequestParam Map<String, String> param
 			BoardDto dto) {
+		
 		Map<String, String> resultMap = new HashMap<>();
 
 		resultMap.put("res_code", "500");

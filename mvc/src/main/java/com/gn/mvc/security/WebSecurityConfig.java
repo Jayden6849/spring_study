@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,11 +25,13 @@ public class WebSecurityConfig {
 	
 	// 특정 요청이 들어왔을 때 어떻게 처리할 것인가? - permitAll()에는 접근할 수 있지만, authenticated()에는 권한이 있어야 접근 가능함.
 	@Bean
-	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(requests -> requests.requestMatchers("/","/login","/signup","/logout").permitAll()
+	SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService customUserDetailsService) throws Exception {
+		http.userDetailsService(customUserDetailsService)
+		.authorizeHttpRequests(requests -> requests.requestMatchers("/","/login","/signup","/logout").permitAll()
 														.anyRequest().authenticated())
 		.formLogin(login -> login.loginPage("/login")
-								.defaultSuccessUrl("/board"))
+								.successHandler(new MyLoginSuccessHandler())
+								.failureHandler(new MyLoginFailureHandler()))
 		.logout(logout -> logout.clearAuthentication(true)
 								.logoutSuccessUrl("/login")
 								.invalidateHttpSession(true));

@@ -76,7 +76,11 @@ layout:decorate="~{/include/layout}">
 				
 				if(deleteCheck) {
 					fetch('/board/'+boardNo,{
-						method : 'delete'
+						method : 'delete',
+						headers : {
+						      'header': document.querySelector('meta[name="_csrf_header"]').content,
+						      'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').content
+						}
 					})
 					.then(response => response.json())
 					.then(data => {
