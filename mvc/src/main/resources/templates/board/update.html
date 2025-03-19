@@ -1,33 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-layout:decorate="~{/include/layout}">
-	<th:block layout:fragment="content">	
-		<link th:href="@{/css/board/create.css}" rel="stylesheet">
-		<section>
-			<div id="section_wrap">
-				<div class="word">
-					<h3>게시글 수정</h3>
-				</div><br>
-				<div class="register_board_form">
-					<form name="update_board_form">	
-						<input type="hidden" name="board_no" th:value="${board.boardNo}"><br>
-						<input type="text" name="board_title" th:value="${board.boardTitle}"><br>
-						<input type="text" name="board_content" th:value="${board.boardContent}"><br>
-						<input type="hidden" name="board_writer" th:value="${board.member.memberNo}"><br>
-						<div th:if="${!#lists.isEmpty(attachList)}"
-							th:each="attach : ${attachList}">
-								<input type="hidden" name="delete_files" th:value="${attach.attachNo}" disabled>
-								<span th:text="${attach.oriName}">파일명</span>
-								<button type="button" class="btn_close" onclick="changeStatus(this)">삭제</button><br>
-						</div>
-						<input type="file" name="files" multiple><br>
-						<input type="submit" value="수정"> 
-					</form>
-				</div>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{/include/layout}">
+<th:block layout:fragment="content">
+	<link th:href="@{/css/board/create.css}" rel="stylesheet">
+	<section>
+		<div id="section_wrap">
+			<div class="word">
+				<h3>게시글 수정</h3>
 			</div>
-		</section>
-		<script>
+			<br>
+			<div class="register_board_form">
+				<form name="update_board_form">
+					<input type="hidden" name="board_no" th:value="${board.boardNo}"><br>
+					<input type="text" name="board_title"
+						th:value="${board.boardTitle}"><br> <input
+						type="text" name="board_content" th:value="${board.boardContent}"><br>
+					<input type="hidden" name="board_writer"
+						th:value="${board.member.memberNo}"><br>
+					<div th:if="${!#lists.isEmpty(attachList)}"
+						th:each="attach : ${attachList}">
+						<input type="hidden" name="delete_files"
+							th:value="${attach.attachNo}" disabled> <span
+							th:text="${attach.oriName}">파일명</span>
+						<button type="button" class="btn_close"
+							onclick="changeStatus(this)">삭제</button>
+						<br>
+					</div>
+					<input type="file" name="files" multiple><br>
+					<input type="submit" value="수정">
+				</form>
+			</div>
+		</div>
+	</section>
+	<script>
 			const changeStatus = function(element){
 				// 1. btn_close 클래스를 가지고 있는 경우
 				//	 -> disabled를 false
@@ -93,5 +99,5 @@ layout:decorate="~{/include/layout}">
 			});
 		</script>
 
-    </th:block>
+</th:block>
 </html>
