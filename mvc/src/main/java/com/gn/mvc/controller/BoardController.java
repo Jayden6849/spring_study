@@ -134,10 +134,10 @@ public class BoardController {
 
 	@GetMapping("/board/{id}")
 	public String selectBoardOne(@PathVariable("id") Long id, Model model) {
-		logger.info("게시글 단일 조회 : " + id);
+		logger.debug("게시글 단일 조회 : " + id);
 
 		Board result = service.selectBoardOne(id);
-		logger.info("id 기준 상세 조회 : " + result);
+		logger.debug("id 기준 상세 조회 : " + result);
 
 		List<Attach> attachList = attachService.selectAttachList(id);
 
@@ -170,7 +170,7 @@ public class BoardController {
 
 //		logger.debug("entity 출력확인 : "+result.toString());
 
-		logger.debug("삭제 파일 정보 : " + boardDto.getDelete_files());
+		logger.debug("삭제할 파일 정보 : " + boardDto.getDelete_files());
 
 		List<AttachDto> attachDtoList = new ArrayList<>();
 

@@ -22,13 +22,11 @@ public class WebSecurityConfig {
 		return web -> web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 	}
 	
-	// 특정 요청이 들어왔을 때 어떻게 처리할 것인가?
+	// 특정 요청이 들어왔을 때 어떻게 처리할 것인가? - permitAll()에는 접근할 수 있지만, authenticated()에는 권한이 있어야 접근 가능함.
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(requests -> requests.requestMatchers("/login","/signup","/logout")
-														.permitAll()
-														.anyRequest()
-														.authenticated())
+		http.authorizeHttpRequests(requests -> requests.requestMatchers("/","/login","/signup","/logout").permitAll()
+														.anyRequest().authenticated())
 		.formLogin(login -> login.loginPage("/login")
 								.defaultSuccessUrl("/board"))
 		.logout(logout -> logout.clearAuthentication(true)
