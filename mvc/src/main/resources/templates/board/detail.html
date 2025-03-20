@@ -89,6 +89,9 @@ layout:decorate="~{/include/layout}">
 							location.href="/board";
 						}
 					})
+					.catch(error => {
+						console.log(error);
+					})
 				}
 			};
 		</script>
