@@ -46,13 +46,13 @@ public class MemberController {
 		Map<String, String> resultMap = new HashMap<>();
 		
 		resultMap.put("res_code", "500");
-		resultMap.put("result_msg", "회원가입 중 오류가 발생하였습니다.");
+		resultMap.put("res_msg", "회원가입 중 오류가 발생하였습니다.");
 		
 		MemberDto resultDto = service.createMember(memberDto);
 		
 		if(resultDto != null) {
 			resultMap.put("res_code", "200");
-			resultMap.put("result_msg", "회원가입이 완료되었습니다.");
+			resultMap.put("res_msg", "회원가입이 완료되었습니다.");
 		}
 		
 		return resultMap;

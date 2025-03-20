@@ -67,7 +67,7 @@ layout:decorate="~{/include/layout}">
 					})
 					.then(response => response.json())
 					.then(data => {
-						alert(data.result_msg);
+						alert(data.res_msg);
 						if(data.res_code == '200') {
 							location.href = "/";
 						}
