@@ -32,7 +32,8 @@ public class WebSecurityConfig {
 		.formLogin(login -> login.loginPage("/login")
 								.successHandler(new MyLoginSuccessHandler())
 								.failureHandler(new MyLoginFailureHandler()))
-		.logout(logout -> logout.clearAuthentication(true)
+		.logout(logout -> logout.logoutUrl("/logout")
+								.clearAuthentication(true)
 								.logoutSuccessUrl("/login")
 								.invalidateHttpSession(true));
 		
