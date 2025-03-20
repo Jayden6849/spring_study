@@ -85,7 +85,7 @@ public class MemberService {
 				String sql = "DELETE FROM `persistent_logins` WHERE `username` = ?";
 				jdbcTemplate.update(sql, memberDto.getMember_id());
 				
-				SecurityContextHolder.getContext().setAuthentication(null);
+				SecurityContextHolder.getContext().setAuthentication(null);		// session 만료시키는 코드
 
 				result = 1;
 			}

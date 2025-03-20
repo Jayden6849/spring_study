@@ -17,7 +17,9 @@ import com.gn.mvc.entity.Member;
 import com.gn.mvc.service.MemberService;
 
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -97,7 +99,7 @@ public class MemberController {
 	
 	@DeleteMapping("/member/{id}")
 	@ResponseBody
-	public Map<String, String> deleteMemberAApi(@PathVariable("id") Long memberNo, HttpServletResponse response) {
+	public Map<String, String> deleteMemberAApi(@PathVariable("id") Long memberNo, HttpServletRequest request, HttpServletResponse response) {
 		
 		Map<String,String> resultMap = new HashMap<>();
 		
@@ -106,7 +108,12 @@ public class MemberController {
 		
 		int result = service.deleteMember(memberNo);
 		
-		if(result > 0) {		
+		if(result > 0) {
+			HttpSession session = request.getSession(false);		
+	        if (session != null) {
+	            session.invalidate();		// 서비스에서 이미 인증정보를 null 바꿨지만, 세션까지 완전히 만료시키면 더 바람직
+	        }
+			
 			Cookie rememberMe = new Cookie("remember-me", null);
 			rememberMe.setMaxAge(0);
 			rememberMe.setPath("/");
