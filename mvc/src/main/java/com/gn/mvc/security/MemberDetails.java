@@ -60,7 +60,7 @@ public class MemberDetails implements UserDetails {
 //		} else {
 //			return true;
 //		}
-				
+		
 		return true;	// true여야 로그인이 되고, false면 로그인이 안 됌 - 지금은 멤버테이블에 퇴사여부가 없어서 그냥 true 하드코딩 
 	}
 	

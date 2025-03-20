@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gn.mvc.dto.MemberDto;
@@ -20,7 +22,14 @@ public class MemberController {
 	private final MemberService service;
 	
 	@GetMapping("/login")
-	public String loginView() {
+	public String loginView(
+			@RequestParam(value="error", required=false) String error,			// 있으면 매개받고 없으면 매개받지 않게 만든 코드
+			@RequestParam(value="errorMsg", required=false) String errorMsg
+			,Model model) {
+		
+		model.addAttribute("error", error);
+		model.addAttribute("errorMsg", errorMsg);
+		
 		return "member/login";
 	}
 	
