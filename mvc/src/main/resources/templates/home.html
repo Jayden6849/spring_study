@@ -12,7 +12,7 @@ layout:decorate="~{/include/layout}">
 				width: 1024px;
 				margin: 0 auto;
 				text-align: center;
-			} 
+			}
 		</style>
     	<section>
 			<div id="section_wrap">
@@ -26,5 +26,36 @@ layout:decorate="~{/include/layout}">
 				</div>
 			</div>
 		</section>
+		
+		<h1>WebSocket 테스트</h1>
+		<input type="text" id="msg">
+		<input type="button" value="전송" onclick="sendMsg();">
+		<div id="output"></div>
+		
+		<script>
+			let socket = new WebSocket("ws://localhost:8080/ws/basic");
+			
+			socket.onopen = function() {
+				// 클라이언트 -> 서버 연결 요청
+				// 서버의 afterConnectionEstablished 메소드
+				console.log('클라이언트 : 연결');
+			}
+			
+			socket.onmessage = function(event) {
+				// 클라이언트 -> 서버 메시지 send
+				// 서버의 handleTextMessage 메소드에서 처리 후
+				// 서버의 sendMessage() 메소드 동작 - 서버에서 무언가 메시지가 오게 됨
+				
+				// console.log(event.data);
+				document.getElementById('output').innerHTML += '<p>'+event.data+'</p>';
+			}
+			
+			const sendMsg = function() {
+				let msg = document.getElementById('msg').value;
+				socket.send(msg);
+				document.getElementById('msg').value = '';			// 인풋창을 비워주는 역할
+			}
+			
+		</script>
 	</th:block>
 </html>
