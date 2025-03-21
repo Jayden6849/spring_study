@@ -37,7 +37,8 @@ public class WebSecurityConfig {
 	SecurityFilterChain filterChain(HttpSecurity http, UserDetailsService customUserDetailsService) throws Exception {
 		http.userDetailsService(customUserDetailsService)
 		.authorizeHttpRequests(requests -> requests.requestMatchers("/","/login","/signup","/logout").permitAll()
-														.anyRequest().authenticated())
+													.requestMatchers("/admin/**").hasRole("ADMIN")
+													.anyRequest().authenticated())
 		.formLogin(login -> login.loginPage("/login")
 								.successHandler(new MyLoginSuccessHandler())
 								.failureHandler(new MyLoginFailureHandler()))

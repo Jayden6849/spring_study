@@ -30,7 +30,8 @@ public class MemberDetails implements UserDetails {
 	// 사용자의 권한을 설정해주는 메소드 - 복수형으로 설정 가능 ex) 학생이면서 딸, 인사책임자이면서 남성
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority("user"));
+//		return List.of(new SimpleGrantedAuthority("user"));
+		return List.of(new SimpleGrantedAuthority(member.getMemberRole()));
 	}
 	
 	// 사용자 비밀번호를 반환 - member가 가지고 있는 pw정보를 넣어서 쓰겠다

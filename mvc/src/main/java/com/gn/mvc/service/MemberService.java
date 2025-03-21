@@ -56,7 +56,7 @@ public class MemberService {
 				String sql = "DELETE FROM `persistent_logins` WHERE `username` = ?";
 				jdbcTemplate.update(sql, memberDto.getMember_id());
 				
-				// 3. 변경된 회원 정보 Security Context 에 즉시 반영
+				// 3. 변경된 회원 정보 Security Context 에 즉시 반영 - session 수정해 주는 로직
 				UserDetails updatedUserDetails = userDetailsService.loadUserByUsername(memberDto.getMember_id());
 				Authentication newAuth = new UsernamePasswordAuthenticationToken(updatedUserDetails, updatedUserDetails.getPassword(), updatedUserDetails.getAuthorities());
 				SecurityContextHolder.getContext().setAuthentication(newAuth);

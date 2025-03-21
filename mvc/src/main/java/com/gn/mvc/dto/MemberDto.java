@@ -24,6 +24,7 @@ public class MemberDto {
 	private String member_id;
 	private String member_pw;
 	private String member_name;
+	private String member_role;
 	private LocalDateTime reg_date;
 	private LocalDateTime mod_date;
 	
@@ -33,6 +34,7 @@ public class MemberDto {
 				.memberId(this.member_id)
 				.memberPw(this.member_pw)
 				.memberName(this.member_name)
+				.memberRole(this.member_role)
 				.build();
 	}
 	
@@ -42,6 +44,7 @@ public class MemberDto {
 				.member_id(member.getMemberId())
 				.member_pw(member.getMemberPw())
 				.member_name(member.getMemberName())
+				.member_role(member.getMemberRole())
 				.reg_date(member.getRegDate())
 				.mod_date(member.getModDate())
 				.build();	
