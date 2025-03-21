@@ -8,7 +8,7 @@ layout:decorate="~{/include/layout}">
 	    <input type="hidden" id="roomNo" th:value="${chatRoom.roomNo}">
 	    <th:block>
 	    	<span th:text="|보내는 사람 : ${#authentication.principal.member.memberName}|">보내는 사람</span>
-	    	<input type="hidden" id="senderNo" value="${#authentication.principal.member.memberNo}">
+	    	<input type="hidden" id="senderNo" th:value="${#authentication.principal.member.memberNo}">
 	    </th:block>
 	    <br>
 	    <th:block th:if="${chatRoom.toMember.memberNo == #authentication.principal.member.memberNo}">
@@ -22,10 +22,38 @@ layout:decorate="~{/include/layout}">
 		<br>
 	    <textarea id="msgContent" placeholder="메시지 입력"></textarea>
 	    <br>
-	    <button>전송</button>
+	    <button onclick="sendMsg();">전송</button>
 	    <div id="chatBox">
 	    
 	    </div>
     </div>
+    <script>
+    	let senderNo = document.getElementById("senderNo").value;
+    	let socket = new WebSocket("ws://localhost:8080/ws/chat?senderNo="+senderNo);
+    	
+    	
+    	const sendMsg = function(){
+			// 필요한 정보 : 몇 번 채팅방인지(PK), 보내는 사람이 누구인지(senderNo), 받는 사람이 누구인지(reserverNo), msg 그 자체
+			let roomNo = document.getElementById('roomNo').value;
+			let receiverNo = document.getElementById('receiverNo').value;
+			let msgContent = document.getElementById('msgContent').value;
+			// 보내는 사람은 따로 보내줄 필요가 없음. 이미 연결 시점에 전역으로 넘겨버림
+			
+    		
+			socket.send(JSON.stringify({			// JSON으로 파싱해서 데이터를 보냄 - 객체형태이기때문에 JSON으로 보내야하는 것임
+					room_no : roomNo,
+					sender_no : senderNo,
+					receiver_no : receiverNo,
+					msg_content : msgContent
+			}));
+			
+			document.getElementById('msgContent').value = '';
+    	};
+    	
+   		socket.onmessage = function(event) {
+			document.getElementById('chatBox').innerHTML += '<p>'+event.data+'</p>';
+   		}
+    	
+    </script>
     </th:block>
 </html>

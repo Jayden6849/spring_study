@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 public class WebSocketConfig implements WebSocketConfigurer {
 	
 	private final BasicWebSocketHandler basicWebSocketHandler;
+	private final ChatWebSocketHandler chatWebSocketHandler;
 	
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -22,6 +23,11 @@ public class WebSocketConfig implements WebSocketConfigurer {
 			.addHandler(basicWebSocketHandler, "/ws/basic")
 			// 전역 : CORS(Cross-Origin Resource Sharing) 허용 설정 - CORS 허용 설정이라고 검색하면 경로를 지정해줄 수 있는 설정값들이 있음 
 			.setAllowedOrigins("http://localhost:8080");
+			//	.setAllowedOrigins("*"); 라고 써도 됨
+		
+		registry.addHandler(chatWebSocketHandler, "/ws/chat")
+				.setAllowedOrigins("http://localhost:8080");
+		
 	}
 	
 }
