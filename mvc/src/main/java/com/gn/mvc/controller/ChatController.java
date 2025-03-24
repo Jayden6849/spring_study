@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gn.mvc.entity.ChatMsg;
 import com.gn.mvc.entity.ChatRoom;
+import com.gn.mvc.service.ChatMsgService;
 import com.gn.mvc.service.ChatRoomService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class ChatController {
 	
 	private final ChatRoomService chatRoomService;
+	private final ChatMsgService chatMsgService;
 	
 	@GetMapping("/list")				// 즉, 해당 메소드의 url은 /chat/list
 	public String selectChatRoomAll(Model model) {
@@ -34,7 +37,10 @@ public class ChatController {
 	public String selectChatRoomOne(@PathVariable("id") Long roomNo, Model model) {
 		ChatRoom chatRoom = chatRoomService.selectChatRoomOne(roomNo);
 		
+		List<ChatMsg> msgList = chatMsgService.selectChatMsgAll(roomNo);
+		
 		model.addAttribute("chatRoom", chatRoom);
+		model.addAttribute("msgList", msgList);
 		
 		return "chat/detail";
 	}

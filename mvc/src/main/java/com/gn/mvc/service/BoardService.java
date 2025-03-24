@@ -95,6 +95,8 @@ public class BoardService {
 		 * 
 		 * if(searchDto.getOrder_type() == 2) { sort = Sort.by("regDate").ascending(); }
 		 */
+		
+		Specification<Board> spec = (root, query, criteriaBuilder) -> null;
 
 		Pageable pageable = PageRequest.of(pageDto.getNowPage() - 1, pageDto.getNumPerPage(),
 				Sort.by("regDate").descending());
@@ -103,9 +105,7 @@ public class BoardService {
 			pageable = PageRequest.of(pageDto.getNowPage() - 1, pageDto.getNumPerPage(),
 					Sort.by("regDate").ascending());
 		}
-
-		Specification<Board> spec = (root, query, criteriaBuilder) -> null;
-
+		
 		if (searchDto.getSearch_type() == 1) {
 			spec = spec.and(BoardSpecification.boardTitleContains(searchDto.getSearch_text()));
 		} else if (searchDto.getSearch_type() == 2) {

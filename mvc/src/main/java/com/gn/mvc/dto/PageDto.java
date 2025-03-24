@@ -17,7 +17,7 @@ public class PageDto {
 	private int pageBarEnd;			// 어디까지
 	
 	private int totalPage;			// 전체 페이지
-
+	
 	private boolean prev = true;	// 이전 버튼 여부
 	private boolean next = true;	// 다음 버튼 여부
 	
