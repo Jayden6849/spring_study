@@ -7,6 +7,14 @@
 <body>
 	<th:block>
 		<h1>할 일 목록</h1>
+		<form action="/todo" name="search_todo_form" method="get">
+			<div>
+				<label for="search-input">내용 : </label>
+				<input type="text" id="search-input" name="search_text" th:value="${searchDto.search_text}">
+				<input type="submit" value="검색">
+			</div>
+		</form>
+		<br>
 		<table border="1">
 			<tbody>
 				<tr>
@@ -27,6 +35,17 @@
 				</tr>
 			</tbody>
 		</table>
+		<div>
+			<div>
+				<a th:if="${pageDto.prev}" th:href="@{/todo(nowPage=${pageDto.pageBarStart-1}, search_text=${searchDto.search_text})}">&laquo;</a>
+				<a th:each="num : ${#numbers.sequence(pageDto.pageBarStart, pageDto.pageBarEnd)}"
+					th:text="${num}"
+					th:classappend="${pageDto.nowPage == num} ? 'active' "
+					th:href="@{/todo(nowPage=${num}, search_text=${searchDto.search_text})}">번호
+				</a>
+				<a th:if="${pageDto.next}" th:href="@{/todo(nowPage=${pageDto.pageBarEnd+1}, search_text=${searchDto.search_text})}">&raquo;</a>
+			</div>
+		</div>
 		
 		<h1>할 일 추가</h1>
 		<form name="create_todo_form">
@@ -122,7 +141,9 @@
 			        }
 				});
 			});
-
+			
+			// 할 일을 검색하는 로직
+			
 		</script>
 	<th:block>
 </body>

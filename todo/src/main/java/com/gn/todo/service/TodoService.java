@@ -1,12 +1,18 @@
 package com.gn.todo.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.gn.todo.dto.PageDto;
+import com.gn.todo.dto.SearchDto;
 import com.gn.todo.dto.TodoDto;
 import com.gn.todo.entity.Todo;
 import com.gn.todo.repository.TodoRepository;
+import com.gn.todo.specification.TodoSpecification;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,8 +29,16 @@ public class TodoService {
 	}
 	
 	// 할 일(전체)을 조회하는 로직
-	public List<Todo> selectTodoAll() {
-		List<Todo> resultList = repository.findAll();
+	public Page<Todo> selectTodoAll(PageDto pageDto, SearchDto searchDto) {
+		
+		Specification<Todo> spec = (root, query, criteriaBuilder) -> null;
+		spec = spec.and(TodoSpecification.contentContains(searchDto.getSearch_text()));
+		
+		Pageable pageable = PageRequest.of(pageDto.getNowPage() - 1, pageDto.getNumPerPage(),
+				Sort.by("no").ascending());
+		
+		Page<Todo> resultList = repository.findAll(spec, pageable);
+		
 		return resultList;
 	}
 	

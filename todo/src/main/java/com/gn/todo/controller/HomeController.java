@@ -1,11 +1,12 @@
 package com.gn.todo.controller;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.gn.todo.dto.PageDto;
+import com.gn.todo.dto.SearchDto;
 import com.gn.todo.entity.Todo;
 import com.gn.todo.service.TodoService;
 
@@ -17,12 +18,20 @@ public class HomeController {
 	
 	private final TodoService todoService;
 	
-	@GetMapping({"", "/"})
-	public String homeView(Model model) {
+	@GetMapping({"", "/", "/todo"})
+	public String homeView(Model model, PageDto pageDto, SearchDto searchDto) {
 		
-		List<Todo> todoList = todoService.selectTodoAll();
+		if (pageDto.getNowPage() == 0) {
+			pageDto.setNowPage(1);
+		}
+		
+		Page<Todo> todoList = todoService.selectTodoAll(pageDto, searchDto);
+		
+		pageDto.setTotalPage(todoList.getTotalPages());
 		
 		model.addAttribute("todoList", todoList);
+		model.addAttribute("pageDto", pageDto);
+		model.addAttribute("searchDto", searchDto);
 		
 		return "home";
 	}
