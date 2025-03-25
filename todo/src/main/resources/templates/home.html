@@ -15,6 +15,16 @@
 					<th>내용</th>
 					<th>삭제</th>
 				</tr>
+				<tr th:if="${#lists.isEmpty(todoList)}">
+					<td colspan="4">조회된 데이터가 없습니다</td>
+				</tr>
+				<tr th:if="${!#lists.isEmpty(todoList)}"
+					th:each="todo, vs : ${todoList}">
+						<td><input type="checkbox" th:checked="${todo.flag == 'Y'}" class="chk-flag" th:attr="data-no=${todo.no}"></td>
+						<td th:text="${vs.count}">번호</td>
+						<td th:text="${todo.content}">내용</td>
+						<td><input type="button" value="삭제"></td>
+				</tr>
 			</tbody>
 		</table>
 		
@@ -25,6 +35,7 @@
 		</form>
 		
 		<script>
+			// 할 일을 추가하는 로직
 			const form = document.create_todo_form;
 			form.addEventListener("submit", function(event){
 				event.preventDefault();
@@ -59,6 +70,54 @@
 					})
 				}
 			});
+			
+			// 완료 여부를 수정하는 로직
+			document.querySelectorAll(".chk-flag").forEach((checkbox) => {
+				checkbox.addEventListener("change", function (event) {
+			        const no = event.target.dataset.no;
+			        const flag = event.target.checked;
+			        
+			        fetch("/todo/"+no+"/update", {
+						method : "post",
+						headers: {
+			                "Content-Type": "application/json"
+			            },
+			            body: JSON.stringify({
+							flag: flag
+						})
+					})
+					.then(response => response.json())
+					.then(data => {
+						if(data.res_code == '500') {
+							alert(data.res_msg);		
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					})
+				});
+			});
+			
+			// 할 일을 삭제하는 로직
+			document.querySelectorAll(".chk-flag").forEach((checkbox) => {
+				checkbox.addEventListener("change", function (event) {
+			        const no = event.target.dataset.no;
+			        
+			        fetch("/todo/"+no+"/delete", {
+						method : "post"
+					})
+					.then(response => response.json())
+					.then(data => {
+						if(data.res_code == '500') {
+							alert(data.res_msg);		
+						}
+					})
+					.catch(error => {
+						console.log(error);
+					})
+				});
+			});
+
 		</script>
 	<th:block>
 </body>

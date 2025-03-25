@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gn.todo.dto.TodoDto;
@@ -37,6 +39,35 @@ public class TodoController {
 		
 		return resultMap;
 		
+	}
+	
+	@PostMapping("/todo/{id}/update")
+	@ResponseBody
+	public Map<String, String> updateTodoApi(@PathVariable("id") Long no, @RequestBody TodoDto dto) {
+		
+		dto.setNo(no);
+		
+		if("true".equals(dto.getFlag())) {
+			dto.setFlag("Y");
+		} else {
+			dto.setFlag("N");
+		}
+		
+		Todo todo = service.updateTodo(dto);
+		
+		
+		
+		Map<String, String> resultMap = new HashMap<>();
+
+		resultMap.put("res_code", "500");
+		resultMap.put("res_msg", "할 일 수정 중 오류가 발생하였습니다.");
+		
+		if(todo != null) {
+			resultMap.put("res_code", "200");
+			resultMap.put("res_msg", "할 일이 정상적으로 수정되었습니다.");
+		}
+		
+		return resultMap;
 	}
 	
 }
