@@ -10,7 +10,7 @@
 		<form action="/todo" name="search_todo_form" method="get">
 			<div>
 				<label for="search-input">내용 : </label>
-				<input type="text" id="search-input" name="search_text" th:value="${searchDto.search_text}">
+				<input type="text" id="search-input" name="search_text" th:value="${searchDto != null and searchDto.search_text != null ? searchDto.search_text : ''}">
 				<input type="submit" value="검색">
 			</div>
 		</form>
@@ -36,11 +36,10 @@
 			</tbody>
 		</table>
 		<div>
-			<div>
+			<div th:if="${pageDto.totalPage != 0}">
 				<a th:if="${pageDto.prev}" th:href="@{/todo(nowPage=${pageDto.pageBarStart-1}, search_text=${searchDto.search_text})}">&laquo;</a>
 				<a th:each="num : ${#numbers.sequence(pageDto.pageBarStart, pageDto.pageBarEnd)}"
 					th:text="${num}"
-					th:classappend="${pageDto.nowPage == num} ? 'active' "
 					th:href="@{/todo(nowPage=${num}, search_text=${searchDto.search_text})}">번호
 				</a>
 				<a th:if="${pageDto.next}" th:href="@{/todo(nowPage=${pageDto.pageBarEnd+1}, search_text=${searchDto.search_text})}">&raquo;</a>

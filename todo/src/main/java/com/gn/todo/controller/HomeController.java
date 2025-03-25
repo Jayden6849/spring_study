@@ -34,6 +34,7 @@ public class HomeController {
 		model.addAttribute("searchDto", searchDto);
 		
 		return "home";
+		
 	}
 	
 }

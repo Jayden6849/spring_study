@@ -32,7 +32,10 @@ public class TodoService {
 	public Page<Todo> selectTodoAll(PageDto pageDto, SearchDto searchDto) {
 		
 		Specification<Todo> spec = (root, query, criteriaBuilder) -> null;
-		spec = spec.and(TodoSpecification.contentContains(searchDto.getSearch_text()));
+		
+		if(!(searchDto == null || searchDto.getSearch_text() == null)) {
+			spec = spec.and(TodoSpecification.contentContains(searchDto.getSearch_text()));			
+		}
 		
 		Pageable pageable = PageRequest.of(pageDto.getNowPage() - 1, pageDto.getNumPerPage(),
 				Sort.by("no").ascending());

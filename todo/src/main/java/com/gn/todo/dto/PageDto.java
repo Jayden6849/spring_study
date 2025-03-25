@@ -33,7 +33,7 @@ public class PageDto {
 	private void calcPaging() {
 		pageBarStart = ((nowPage - 1) / pageBarSize) * pageBarSize + 1;
 		
-		pageBarEnd = pageBarStart + pageBarSize -1; 
+		pageBarEnd = pageBarStart + pageBarSize - 1; 
 		if(pageBarEnd > totalPage) pageBarEnd = totalPage;
 		
 		if(pageBarStart == 1) prev = false;
