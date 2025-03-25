@@ -29,7 +29,7 @@
 				<tr th:if="${!#lists.isEmpty(todoList)}"
 					th:each="todo, vs : ${todoList}">
 						<td><input type="checkbox" th:checked="${todo.flag == 'Y'}" class="chk-flag" th:attr="data-no=${todo.no}"></td>
-						<td th:text="${vs.count}">번호</td>
+						<td th:text="${vs.count + (pageDto.nowPage-1) * pageDto.numPerPage}">번호</td>
 						<td th:text="${todo.content}">내용</td>
 						<td><input type="button" value="삭제" class="delete-btn" th:attr="data-no=${todo.no}"></td>
 				</tr>
