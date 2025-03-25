@@ -23,7 +23,7 @@
 						<td><input type="checkbox" th:checked="${todo.flag == 'Y'}" class="chk-flag" th:attr="data-no=${todo.no}"></td>
 						<td th:text="${vs.count}">번호</td>
 						<td th:text="${todo.content}">내용</td>
-						<td><input type="button" value="삭제"></td>
+						<td><input type="button" value="삭제" class="delete-btn" th:attr="data-no=${todo.no}"></td>
 				</tr>
 			</tbody>
 		</table>
@@ -99,22 +99,27 @@
 			});
 			
 			// 할 일을 삭제하는 로직
-			document.querySelectorAll(".chk-flag").forEach((checkbox) => {
-				checkbox.addEventListener("change", function (event) {
+			document.querySelectorAll(".delete-btn").forEach((button) => {
+				button.addEventListener("click", function (event) {
 			        const no = event.target.dataset.no;
 			        
-			        fetch("/todo/"+no+"/delete", {
-						method : "post"
-					})
-					.then(response => response.json())
-					.then(data => {
-						if(data.res_code == '500') {
-							alert(data.res_msg);		
-						}
-					})
-					.catch(error => {
-						console.log(error);
-					})
+			        let delete_check = confirm('정말로 해당 할 일을 삭제하시겠습니까?');
+			        
+			        if(delete_check) {
+			        	fetch("/todo/"+no+"/delete", {
+							method : "delete"
+						})
+						.then(response => response.json())
+						.then(data => {
+							alert(data.res_msg);
+							if(data.res_code == '200') {
+								location.href = "/";		
+							}
+						})
+						.catch(error => {
+							console.log(error);
+						})
+			        }
 				});
 			});
 

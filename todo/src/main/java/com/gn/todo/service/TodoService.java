@@ -41,4 +41,24 @@ public class TodoService {
 		return saved;
 	}
 	
+	// 할 일을 삭제하는 로직
+	public int deleteTodo(Long no) {
+		
+		int result = 0;
+		
+		try {
+			Todo target = repository.findById(no).orElse(null);
+			
+			if(target != null) {
+				repository.delete(target);
+				
+				result = 1;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,8 +56,6 @@ public class TodoController {
 		
 		Todo todo = service.updateTodo(dto);
 		
-		
-		
 		Map<String, String> resultMap = new HashMap<>();
 
 		resultMap.put("res_code", "500");
@@ -68,6 +67,28 @@ public class TodoController {
 		}
 		
 		return resultMap;
+	}
+	
+	@DeleteMapping("/todo/{id}/delete")
+	@ResponseBody
+	public Map<String, String> deleteTodoApi(@PathVariable("id") Long no) {
+		
+		int result = 0;
+		
+		result = service.deleteTodo(no);
+		
+		Map<String, String> resultMap = new HashMap<>();
+
+		resultMap.put("res_code", "500");
+		resultMap.put("res_msg", "할 일 삭제 중 오류가 발생하였습니다.");
+		
+		if(result > 0) {
+			resultMap.put("res_code", "200");
+			resultMap.put("res_msg", "할 일이 정상적으로 삭제되었습니다.");
+		}
+		
+		return resultMap;
+		
 	}
 	
 }
