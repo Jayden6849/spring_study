@@ -1,5 +1,7 @@
 package com.gn.todo.dto;
 
+import com.gn.todo.entity.Todo;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,7 +18,25 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Builder
 public class TodoDto {
+	
 	private Long no;
 	private String content;
-	private String flag;
+	private String flag = "N";
+	
+	public Todo toEntity() {
+		return Todo.builder()
+					.no(this.no)
+					.content(this.content)
+					.flag(this.flag)
+					.build();
+	}
+	
+	public TodoDto toDto(Todo todo) {
+		return TodoDto.builder()
+						.no(todo.getNo())
+						.content(todo.getContent())
+						.flag(todo.getFlag())
+						.build();
+	}
+	
 }
