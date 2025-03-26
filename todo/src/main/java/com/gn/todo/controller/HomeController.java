@@ -27,7 +27,9 @@ public class HomeController {
 		
 		Page<Todo> todoList = todoService.selectTodoAll(pageDto, searchDto);
 		
-		pageDto.setTotalPage(todoList.getTotalPages());
+		if(todoList != null) {
+			pageDto.setTotalPage(todoList.getTotalPages());	
+		}
 		
 		model.addAttribute("todoList", todoList);
 		model.addAttribute("pageDto", pageDto);

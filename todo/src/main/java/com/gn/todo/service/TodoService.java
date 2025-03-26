@@ -30,17 +30,21 @@ public class TodoService {
 	
 	// 할 일(전체)을 조회하는 로직
 	public Page<Todo> selectTodoAll(PageDto pageDto, SearchDto searchDto) {
+		Page<Todo> resultList = null;
 		
-		Specification<Todo> spec = (root, query, criteriaBuilder) -> null;
+		if(repository.findAll() != null && repository.findAll().size() != 0) {
+			Specification<Todo> spec = (root, query, criteriaBuilder) -> null;
 		
-		if(!(searchDto == null || searchDto.getSearch_text() == null)) {
-			spec = spec.and(TodoSpecification.contentContains(searchDto.getSearch_text()));			
+			if(!(searchDto == null || searchDto.getSearch_text() 	== null)) {
+				spec = spec.and(TodoSpecification.contentContains(searchDto.getSearch_text()));			
+			}
+			
+			Pageable pageable = PageRequest.of(pageDto.getNowPage() - 1, 
+												pageDto.getNumPerPage(), 
+												Sort.by("no").ascending());
+		
+			resultList = repository.findAll(spec, pageable);
 		}
-		
-		Pageable pageable = PageRequest.of(pageDto.getNowPage() - 1, pageDto.getNumPerPage(),
-				Sort.by("no").ascending());
-		
-		Page<Todo> resultList = repository.findAll(spec, pageable);
 		
 		return resultList;
 	}

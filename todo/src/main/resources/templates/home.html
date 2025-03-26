@@ -16,13 +16,15 @@
 		</form>
 		<br>
 		<table border="1">
-			<tbody>
+			<thead>
 				<tr>
 					<th>완료</th>
 					<th>번호</th>
 					<th>내용</th>
 					<th>삭제</th>
 				</tr>
+			</thead>
+			<tbody>
 				<tr th:if="${#lists.isEmpty(todoList)}">
 					<td colspan="4">조회된 데이터가 없습니다</td>
 				</tr>
@@ -85,7 +87,7 @@
 					})
 					.catch(error => {
 						console.log(error);
-					})
+					});
 				}
 			});
 			
@@ -112,7 +114,7 @@
 					})
 					.catch(error => {
 						console.log(error);
-					})
+					});
 				});
 			});
 			
@@ -136,12 +138,10 @@
 						})
 						.catch(error => {
 							console.log(error);
-						})
+						});
 			        }
 				});
 			});
-			
-			// 할 일을 검색하는 로직
 			
 		</script>
 	<th:block>
