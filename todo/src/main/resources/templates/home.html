@@ -6,6 +6,35 @@
 </head>
 <body>
 	<th:block>
+		<h1>파일 목록</h1>
+		<form name="create_file_form">
+			<input type="file" name="files" multiple>
+			<input type="submit" value="업로드">
+		</form>
+		<script>
+			const fileForm = document.create_file_form;
+			fileForm.addEventListener('submit', (event) => {
+				event.preventDefault();
+				
+				const payload = new FormData(fileForm);
+				
+				fetch("/attach/create", {
+					method : 'post',
+					body : payload
+				})
+				.then(response => response.json())
+				.then(data => {
+					alert(data.res_msg);
+					if(data.res_code == '200') {
+						location.href = "/";
+					}
+				})
+				.catch(error => {
+					console.log(error);
+				});
+				
+			});
+		</script>
 		<h1>할 일 목록</h1>
 		<form action="/todo" name="search_todo_form" method="get">
 			<div>
