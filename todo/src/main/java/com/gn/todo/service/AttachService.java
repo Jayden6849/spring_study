@@ -1,6 +1,7 @@
 package com.gn.todo.service;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -82,6 +83,14 @@ public class AttachService {
 		}
 		
 		return dto;
+	}
+	
+	public List<Attach> selectAttachList() {
+		return repository.findAll();
+	}
+	
+	public Attach selectAttachOne(Long attachNo) {
+		return repository.findById(attachNo).orElse(null);
 	}
 	
 }
