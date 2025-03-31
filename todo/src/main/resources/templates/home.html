@@ -24,13 +24,10 @@
 					<td th:text="${vs.count}">번호(status.count)</td>
 					<td>
 						<!-- <a th:text="${attach.oriName}" th:onclick="|javascript:location.href='@{/download/{id}(id=${attach.attachNo})}'|">파일의 명칭을 출력</a> -->
-						<a th:text="${attach.oriName}" th:href="@{/download/{id}(id=${attach.attachNo})}" style="text-decoration: none; color: black;
-						">파일의 명칭을 출력</a>
+						<a th:text="${attach.oriName}" th:href="@{/download/{id}(id=${attach.attachNo})}" style="text-decoration: none; color: black;">파일의 명칭을 출력</a>
 					</td>
 				</tr>
 			</tbody>
-				
-			
 		</table>
 		
 		<script>

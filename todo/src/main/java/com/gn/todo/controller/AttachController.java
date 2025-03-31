@@ -65,8 +65,11 @@ public class AttachController {
 		try {
 			Attach fileData = service.selectAttachOne(attachNo);
 			
-			if(fileData != null) {
-				ResponseEntity.notFound().build();
+			// 시큐리티를 쓰고 있다고 가정을 하면, authentication.getPrincipal().getId(); 랑 fileData.getWriterNo(); 를 비교해서 권한 검사를 해야함
+			// 일치하지 않으면 return ResponseEntity.forbidden().build();
+			
+			if(fileData == null) {
+				return ResponseEntity.notFound().build();
 			}
 			
 			Path filePath = Paths.get(fileData.getAttachPath());
