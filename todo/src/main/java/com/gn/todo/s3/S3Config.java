@@ -30,7 +30,6 @@ public class S3Config {
 				.withRegion(region)
 				.withCredentials(new AWSStaticCredentialsProvider(awsCreds))
 				.build();
-		
 	}
 	
 }
