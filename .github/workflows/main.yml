@@ -24,11 +24,12 @@ jobs:
           script: |
             # 1. 작업 디렉토리로 이동
             cd /home/ubuntu/app/todo
-            
+
             # 2. 최신 코드 가져오기
             git pull origin master
 
-            # 3. 
+            # 3. secret 파일 생성
+            echo -e "${{ secrets.APP_SECRET_PROP }}" > /home/ubuntu/app/todo/src/main/resources/application-secret.properties
 
             # 4. jar 파일 만들기 (== gradle 빌드)
             chmod +x ./gradlew
@@ -42,4 +43,3 @@ jobs:
             # 6. jar 파일 복제 & 이미지 빌드 & 컨테이너 Run
             sudo docker build -t my-app .
             sudo docker run -d --name my-app -p 8080:8080 my-app
-            
